@@ -27,6 +27,7 @@ def length(v):
 def normalize(v):
     norm = length(v)
     if norm <= EPSILON:
+        # fallback, returns 0 vector
         return np.array([0, 0, 0], dtype=float)
     else:
         v_u = v / norm
