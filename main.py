@@ -1,8 +1,7 @@
 from geomtery import intersectPt, normalVec, calcHit
 from util import *
-from render import *
-from sphere import *
-from ray import *
+from objects.sphere import *
+from objects.ray import *
 
 v1 = create_vector(0, 0, -1)
 o1 = create_vector(0, 0, 0)
