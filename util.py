@@ -1,7 +1,13 @@
+# basic vector math stuff
 # vectors are represented with 3 components: x y and z
 import numpy as np
 
 EPSILON = 1e-8
+
+# for rendering the window, default values
+DEFWIN_WIDTH = 1280
+DEFWIN_HEIGHT = 720
+
 
 def create_vector(x, y, z):
     return np.array([x, y, z], dtype=float)

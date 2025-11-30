@@ -1,2 +1,6 @@
-import numpy as np
-print("Hello world")
+# main
+from util import *
+from render import *
+
+pixels = renderGradient(DEFWIN_WIDTH, DEFWIN_HEIGHT)
+writePPM("output", DEFWIN_WIDTH, DEFWIN_HEIGHT, pixels)
