@@ -18,6 +18,8 @@ DEFWIN_WIDTH = 1280
 DEFWIN_HEIGHT = 720
 
 # vector stuff
+ORIGIN = np.array([0, 0, 0])
+
 def create_vector(x, y, z): # ret: vector3d
     return np.array([x, y, z], dtype=float)
 
