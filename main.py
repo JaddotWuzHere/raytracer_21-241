@@ -1,4 +1,4 @@
-from geomtery import intersectPt, normalVec, calcHit
+from geometry import intersectPt, normalVec, calcHit
 from util import *
 from objects.sphere import *
 from objects.ray import *
