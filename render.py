@@ -2,7 +2,8 @@
 from geometry import *
 from util import *
 
-SKYBOX = (255, 255, 255)
+SKYBOX = (125, 200, 255)
+GROUND = (255, 255, 255)
 LIGHT_POS = create_vector(2, 2, 0)
 
 AMBIENT = 0.25
@@ -13,12 +14,26 @@ def renderGradient(camera, sphere, width, height):
     for i in range(height):
         for j in range(width):
             ray = camera.genRay(j, i)
+
+            C = skyGradient(ray)
+
             P = intersectPt(ray, sphere)
             if P is SENTINEL:
-                pixelBuf[i][j] = SKYBOX
+                pixelBuf[i][j] = C
             else:
                 pixelBuf[i][j] = lambertianShade(ray, sphere)
     return pixelBuf
+
+def skyGradient(ray): # ret: (r, g, b)
+    dir = normalize(ray.direction)
+    y = dir[1]
+    t = (y + 1) / 2  # vertical blending
+
+    s_r = int((1 - t) * GROUND[0] + t * SKYBOX[0])
+    s_g = int((1 - t) * GROUND[1] + t * SKYBOX[1])
+    s_b = int((1 - t) * GROUND[2] + t * SKYBOX[2])
+
+    return (s_r, s_g, s_b)
 
 def colorHelper(n): # ret: float
     return (n + 1) / 2
@@ -38,6 +53,7 @@ def lambertianShade(ray, sphere): # ret: (r, g, b)
     L = normalize(LIGHT_POS - P)
     diff = max(0, dot(N, L))
     brightness = AMBIENT + DIFFUSE * diff
+
     c_r = colorSurfNorm(ray, sphere)[0]
     c_g = colorSurfNorm(ray, sphere)[1]
     c_b = colorSurfNorm(ray, sphere)[2]
