@@ -1,4 +1,3 @@
-# big round BALLS
 # |P-C|^2 = R^2
 
 class Sphere:

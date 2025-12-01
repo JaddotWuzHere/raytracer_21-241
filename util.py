@@ -4,18 +4,8 @@ import math
 
 import numpy as np
 
-# sentinel
-class Sentinel:
-    def __repr__(self):
-        return "SENTINEL"
-SENTINEL = Sentinel()
-
 # math constants
 EPSILON = 1e-8
-
-# for rendering the window, default sizes
-DEFWIN_WIDTH = 1280
-DEFWIN_HEIGHT = 720
 
 # vector stuff
 ORIGIN = np.array([0, 0, 0])
