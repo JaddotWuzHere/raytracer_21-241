@@ -1,3 +1,5 @@
+from camera import Camera
+from objects.sphere import Sphere
 from render import *
 from util import *
 
