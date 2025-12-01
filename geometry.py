@@ -1,7 +1,7 @@
 # calculations regarding 3d shapes
 from util import *
 
-
+# returns both the distance and obj from which the ray was hit
 def calcHit(ray, objList): # ret: (float, sphere) or (None, None)
     t_hit = None
     obj = None
@@ -13,6 +13,7 @@ def calcHit(ray, objList): # ret: (float, sphere) or (None, None)
 
     return (t_hit, obj)
 
+# for individual obj calculation
 def calcHitObj(ray, sphere): # ret: float or None
     O = ray.origin
     D = ray.direction
@@ -37,18 +38,16 @@ def calcHitObj(ray, sphere): # ret: float or None
 
         return t_hit
 
-def intersectPt(ray, objList): # ret: (vector3d, obj) or (None, None)
-    t_hit, obj = calcHit(ray, objList)
+def intersectPt(ray, t_hit): # ret: vector3d or None
     if t_hit is None:
-        return (None, None)
+        return None
     O = ray.origin
     D = ray.direction
     P = O + t_hit * D
 
-    return (P, obj)
+    return P
 
-def normalVec(ray, objList): # ret: vector3d or None
-    P, obj = intersectPt(ray, objList)
+def normalVec(ray, t_hit, obj, P): # ret: vector3d or None
     if P is None:
         return None
     C = obj.center

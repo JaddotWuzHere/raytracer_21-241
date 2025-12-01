@@ -2,11 +2,11 @@ from objects.ray import Ray
 from util import *
 
 class Camera:
-    def __init__(self, origin, imgWidth, imgHeight, planeDepth):
+    def __init__(self, origin, imgWidth, imgHeight, fov):
         self.origin = origin # vector3d
         self.imgWidth = imgWidth # int
         self.imgHeight = imgHeight # int
-        self.planeDepth = planeDepth # float
+        self.fov = fov # float
         self.aspectRatio = imgWidth / imgHeight #float
 
     def genRay(self, i, j): # ret: vector3d
@@ -18,7 +18,7 @@ class Camera:
         x = (2 * u - 1) * self.aspectRatio
         y = 1 - 2 * v
 
-        P = create_vector(x, y, -self.planeDepth)
+        P = create_vector(x, y, -self.fov)
         rawD = P - self.origin
         D = normalize(rawD)
 

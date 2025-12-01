@@ -13,11 +13,13 @@ def renderGradient(camera, objList, width, height): # ret: pixel array
 
             C = skyGradient(ray)
 
-            P, obj = intersectPt(ray, objList)
-            if P is None:
+            t_hit, obj = calcHit(ray, objList)
+            if t_hit is None:
                 pixelBuf[i][j] = C
             else:
-                pixelBuf[i][j] = lambertianShade(ray, objList)
+                P = intersectPt(ray, t_hit)
+                N = normalVec(ray, t_hit, obj, P)
+                pixelBuf[i][j] = lambertianShade(ray, t_hit, obj)
     return pixelBuf
 
 # generate file

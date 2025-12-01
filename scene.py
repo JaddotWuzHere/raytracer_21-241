@@ -24,24 +24,23 @@ def colorHelper(n): # ret: float
     return (n + 1) / 2
 
 # color normals
-def colorSurfNorm(ray, objList): # ret: (r, g, b)
-    N = normalVec(ray, objList)
+def colorSurfNorm(ray, N): # ret: (r, g, b)
     c_r = int(colorHelper(N[0]) * 255)
     c_g = int(colorHelper(N[1]) * 255)
     c_b = int(colorHelper(N[2]) * 255)
     return (c_r, c_g, c_b)
 
 # shadows
-def lambertianShade(ray, objList): # ret: (r, g, b)
-    P, obj = intersectPt(ray, objList)
-    N = normalize(P - obj.center)
+def lambertianShade(ray, t_hit, obj): # ret: (r, g, b)
+    P = intersectPt(ray, t_hit)
+    N = normalVec(ray, t_hit, obj, P)
     L = normalize(LIGHT_POS - P)
     diff = max(0, dot(N, L))
     brightness = AMBIENT + DIFFUSE * diff
 
-    c_r = colorSurfNorm(ray, objList)[0]
-    c_g = colorSurfNorm(ray, objList)[1]
-    c_b = colorSurfNorm(ray, objList)[2]
+    c_r = colorSurfNorm(ray, N)[0]
+    c_g = colorSurfNorm(ray, N)[1]
+    c_b = colorSurfNorm(ray, N)[2]
     C_r = int(c_r * brightness)
     C_g = int(c_g * brightness)
     C_b = int(c_b * brightness)
