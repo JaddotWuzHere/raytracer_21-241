@@ -1,6 +1,4 @@
-import math
-
-from objects.ray import Ray
+from ray import Ray
 from util import *
 
 WORLD_UP = create_vector(0, 1, 0)

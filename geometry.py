@@ -1,17 +1,32 @@
 # calculations regarding 3d shapes
+from dataclasses import dataclass
+
 from util import *
 
-# returns both the distance and obj from which the ray was hit
-def calcHit(ray, objList): # ret: (float, sphere) or (None, None)
-    t_hit = None
-    obj = None
-    for i in objList:
-        t = calcHitObj(ray, i)
-        if t is not None and (t_hit is None or t < t_hit):
-            t_hit = t
-            obj = i
+@dataclass
+class HitRecord:
+    t: float
+    point: any
+    normal: any
+    obj: "Renderable"
 
-    return (t_hit, obj)
+class Renderable:
+    def intersect(self, ray) -> HitRecord | None:
+        raise NotImplementedError
+
+
+# DEPRECATED
+# returns both the distance and obj from which the ray was hit
+# def calcHit(ray, objList): # ret: (float, sphere) or (None, None)
+#     t_hit = None
+#     obj = None
+#     for i in objList:
+#         t = calcHitObj(ray, i)
+#         if t is not None and (t_hit is None or t < t_hit):
+#             t_hit = t
+#             obj = i
+#
+#     return (t_hit, obj)
 
 # for individual obj calculation
 def calcHitObj(ray, sphere): # ret: float or None
