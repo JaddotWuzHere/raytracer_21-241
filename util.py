@@ -8,7 +8,7 @@ import numpy as np
 EPSILON = 1e-8
 
 # vector stuff
-ORIGIN = np.array([0, 0, 0])
+ORIGIN = np.array([0.0, 0.0, 0.0])
 
 def create_vector(x, y, z): # ret: vector3d
     return np.array([x, y, z], dtype=float)

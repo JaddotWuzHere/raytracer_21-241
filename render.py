@@ -10,8 +10,8 @@ AMBIENT = 0.25
 DIFFUSE = 1.0
 
 # for rendering the window, default sizes
-DEFWIN_WIDTH = 1280
-DEFWIN_HEIGHT = 720
+DEFWIN_WIDTH = 320
+DEFWIN_HEIGHT = 180
 
 def renderFrame(camera, scene, width, height):
     pixelBuf = [[0 for _ in range(width)] for _ in range(height)]
@@ -73,14 +73,27 @@ def lambertianShade(hit):
 
     return (C_r, C_g, C_b)
 
+def writeBytes(pixels, width, height):
+    byteBuf = bytearray(width * height * 3)
+    k = 0
+    for i in range(height):
+        for j in range(width):
+            r, g, b = pixels[i][j]
+            byteBuf[k] = r
+            byteBuf[k + 1] = g
+            byteBuf[k + 2] = b
+            k += 3
+
+    return byteBuf
+
 # DEPRECATED
 # generate file
-def writePPM(filename, width, height, pixels):
-    with open(filename + ".ppm", "w") as f:
-        f.write(f"P3\n"
-                f"{width} {height}\n"
-                f"255\n")
-        for i in range(height):
-            for j in range(width):
-                r, g, b = pixels[i][j]
-                f.write(f"{r} {g} {b} \n")
+# def writePPM(filename, width, height, pixels):
+#     with open(filename + ".ppm", "w") as f:
+#         f.write(f"P3\n"
+#                 f"{width} {height}\n"
+#                 f"255\n")
+#         for i in range(height):
+#             for j in range(width):
+#                 r, g, b = pixels[i][j]
+#                 f.write(f"{r} {g} {b} \n")
