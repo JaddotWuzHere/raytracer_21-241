@@ -86,14 +86,13 @@ def writeBytes(pixels, width, height):
 
     return byteBuf
 
-# DEPRECATED
-# generate file
-# def writePPM(filename, width, height, pixels):
-#     with open(filename + ".ppm", "w") as f:
-#         f.write(f"P3\n"
-#                 f"{width} {height}\n"
-#                 f"255\n")
-#         for i in range(height):
-#             for j in range(width):
-#                 r, g, b = pixels[i][j]
-#                 f.write(f"{r} {g} {b} \n")
+# generate image file
+def writePPM(filename, width, height, pixels):
+    with open(filename + ".ppm", "w") as f:
+        f.write(f"P3\n"
+                f"{width} {height}\n"
+                f"255\n")
+        for i in range(height):
+            for j in range(width):
+                r, g, b = pixels[i][j]
+                f.write(f"{r} {g} {b} \n")

@@ -3,9 +3,9 @@ from geometry import *
 
 
 class Sphere(Renderable):
-    def __init__(self, center, radius):
-        self.center = center # vector3d
-        self.radius = radius # float
+    def __init__(self, M, M_inv):
+        self.M = M
+        self.M_inv = M_inv
 
     def intersect(self, ray):
         t = calcHitObj(ray, self)
@@ -14,5 +14,5 @@ class Sphere(Renderable):
             return None
 
         P = intersectPt(ray, t)
-        N = normalVec(ray, t, self, P)
+        N = normalVec(self, P)
         return HitRecord(t, P, N, self)

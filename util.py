@@ -4,8 +4,6 @@ import math
 
 import numpy as np
 
-# math constants
-EPSILON = 1e-8
 
 # vector stuff
 ORIGIN = np.array([0.0, 0.0, 0.0])
@@ -27,12 +25,8 @@ def length(v): # ret: float
 
 def normalize(v): # ret: unit vector3d
     norm = length(v)
-    if norm <= EPSILON:
-        # fallback, returns 0 vector
-        return np.array([0, 0, 0], dtype=float)
-    else:
-        v_u = v / norm
-        return v_u
+    v_u = v / norm
+    return v_u
 
 # algebra stuff
 def discriminant(a, b, c): # ret: float
@@ -44,3 +38,20 @@ def findRoots(a, b, c, pm): # ret: float
         return (-b + math.sqrt(discr)) / (2 * a)
     else:
         return (-b - math.sqrt(discr)) / (2 * a)
+
+# matrix stuff
+def translation(tx, ty, tz):
+    return np.array([
+        [1, 0, 0, tx],
+        [0, 1, 0, ty],
+        [0, 0, 1, tz],
+        [0, 0, 0, 1]
+    ], dtype = float)
+
+def scale(s):
+    return np.array([
+        [s, 0, 0, 0],
+        [0, s, 0, 0],
+        [0, 0, s, 0],
+        [0, 0, 0, 1]
+    ], dtype = float)

@@ -1,6 +1,8 @@
 # calculations regarding 3d shapes
 from dataclasses import dataclass
 
+import numpy as np
+
 from util import *
 
 @dataclass
@@ -16,7 +18,6 @@ class Renderable:
 
 
 # DEPRECATED
-# returns both the distance and obj from which the ray was hit
 # def calcHit(ray, objList): # ret: (float, sphere) or (None, None)
 #     t_hit = None
 #     obj = None
@@ -28,16 +29,25 @@ class Renderable:
 #
 #     return (t_hit, obj)
 
-# for individual obj calculation
 def calcHitObj(ray, sphere): # ret: float or None
     O = ray.origin
     D = ray.direction
-    C = sphere.center
-    R = sphere.radius
-    oc = O - C
 
-    a = dot(D, D)
-    b = 2 * (dot(oc, D))
+    OMatr = np.array([O[0], O[1], O[2], 1.0])
+    DMatr = np.array([D[0], D[1], D[2], 0.0])
+
+    OLocMatr = sphere.M_inv @ OMatr
+    DLocMatr = sphere.M_inv @ DMatr
+
+    OLoc = OLocMatr[:3]
+    DLoc = DLocMatr[:3]
+
+    C = ORIGIN
+    R = 1
+    oc = OLoc - C
+
+    a = dot(DLoc, DLoc)
+    b = 2 * (dot(oc, DLoc))
     c = dot(oc, oc) - R ** 2
     discr = discriminant(a, b, c)
     if discr < 0:
@@ -62,10 +72,14 @@ def intersectPt(ray, t_hit): # ret: vector3d or None
 
     return P
 
-def normalVec(ray, t_hit, obj, P): # ret: vector3d or None
-    if P is None:
-        return None
-    C = obj.center
-    N = normalize(P - C)
+def normalVec(obj, PWrld):
+    PWrldMatr = np.array([PWrld[0], PWrld[1], PWrld[2], 1.0])
+    PLocMatr = obj.M_inv @ PWrldMatr
+    PLoc = PLocMatr[:3]
 
-    return N
+    NLoc = normalize(PLoc)
+    NLocMatr = np.array([NLoc[0], NLoc[1], NLoc[2], 0.0])
+    NWrldMatr = obj.M @ NLocMatr
+    NWrld = normalize(NWrldMatr[:3])
+
+    return NWrld
