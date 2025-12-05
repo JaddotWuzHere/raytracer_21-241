@@ -13,7 +13,7 @@ def buildScene():
 def buildCamera():
     return Camera(ORIGIN, create_vector(0, 0, -1), DEFWIN_WIDTH, DEFWIN_HEIGHT, 1)
 
-def main():M
+def main():
     camera = buildCamera()
     scene = buildScene()
     pixels = renderFrame(camera, scene, DEFWIN_WIDTH, DEFWIN_HEIGHT)
