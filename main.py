@@ -4,7 +4,7 @@ import pygame
 from camera import Camera
 from objects.sphere import Sphere
 from render import *
-from scene import Scene
+from scene import Scene, makeSphere
 from util import *
 
 
@@ -47,9 +47,8 @@ def mouseLook(camera):
     pygame.mouse.set_pos(CENTER_X, CENTER_Y)
 
 def buildScene():
-    s1 = Sphere(create_vector(-2, 0, -1), 1)
-    s2 = Sphere(create_vector(-1, 0, -2), 1)
-    return Scene([s1, s2])
+    s1 = makeSphere(create_vector(0, 0, -3), 1)
+    return Scene([s1])
 
 def buildCamera():
     return Camera(ORIGIN, create_vector(0, 0, -1), DEFWIN_WIDTH, DEFWIN_HEIGHT, 1)

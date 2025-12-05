@@ -1,3 +1,5 @@
+import numpy as np
+
 from ray import Ray
 from util import *
 
@@ -23,6 +25,20 @@ class Camera:
         self.right = normalize(cross(self.forward, WORLD_UP))
         self.up = normalize(cross(self.right, self.forward))
 
+    def createViewMatr(self):
+        pos = self.pos
+        f = self.forward
+        r = self.right
+        u = self.up
+
+        V = np.array([
+            [r[0], r[1], r[2], dot(-r, pos)],
+            [u[0], u[1], u[2], dot(-u, pos)],
+            [-f[0], -f[1], -f[2], dot(f, pos)],
+            [0, 0, 0, 1]
+        ])
+        return V
+
     def genRay(self, i, j): # ret: vector3d
         # clamping [0, 1]%
         u = (i + 0.5) / self.imgWidth
@@ -32,14 +48,20 @@ class Camera:
         x = (2 * u - 1) * self.aspectRatio
         y = 1 - 2 * v
 
-        forwardComponent = self.forward * self.focalLength
-        rightComponent = self.right * x
-        upComponent = self.up * y
-        direction = forwardComponent + rightComponent + upComponent
-        D = normalize(direction)
+        cameraDir = normalize(create_vector(x, y, -self.focalLength))
+        OCamMatr = np.array([
+            0.0, 0.0, 0.0, 1.0
+        ])
+        DCamMatr = np.array([cameraDir[0], cameraDir[1], cameraDir[2], 0.0])
 
-        R = Ray(self.pos, D)
-        return R
+        V_inv = np.linalg.inv(self.createViewMatr())
+
+        OWrlMatr = V_inv @ OCamMatr
+        DWrldMatr = V_inv @ DCamMatr
+
+        OWrld = create_vector(OWrlMatr[0], OWrlMatr[1], OWrlMatr[2])
+        DWrld = normalize(create_vector(DWrldMatr[0], DWrldMatr[1], DWrldMatr[2]))
+        return Ray(OWrld, DWrld)
 
     def moveDepth(self, amt):
         self.pos += self.forward * amt

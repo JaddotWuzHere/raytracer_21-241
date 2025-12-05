@@ -7,12 +7,13 @@ from util import *
 
 def buildScene():
     s1 = makeSphere(create_vector(0, 0, -3), 1)
-    return Scene([s1])
+    s2 = makeSphere(create_vector(2, 0, -3), 1)
+    return Scene([s1, s2])
 
 def buildCamera():
     return Camera(ORIGIN, create_vector(0, 0, -1), DEFWIN_WIDTH, DEFWIN_HEIGHT, 1)
 
-def main():
+def main():M
     camera = buildCamera()
     scene = buildScene()
     pixels = renderFrame(camera, scene, DEFWIN_WIDTH, DEFWIN_HEIGHT)
