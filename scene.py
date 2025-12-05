@@ -21,3 +21,23 @@ def makeSphere(center, radius):
     M = T @ S
     M_inv = np.linalg.inv(M)
     return Sphere(M, M_inv)
+
+def projPt(PWrld, camera, width, height):
+    V = camera.createViewMatr()
+    P = camera.createProjMatr()
+
+    PWrldMatr = np.array([PWrld[0], PWrld[1], PWrld[2], 1.0])
+
+    PCam = V @ PWrldMatr
+    PClip = P @ PCam
+
+    #homogenous divide
+    xndc = PClip[0] / PClip[3]
+    yndc = PClip[1] / PClip[3]
+    zndc = PClip[2] / PClip[3]
+
+    screenX = (xndc + 1) * 0.5 * width
+    screenY = (1 - yndc) * 0.5 * height
+
+    return (screenX, screenY), zndc
+

@@ -39,6 +39,20 @@ class Camera:
         ])
         return V
 
+    def createProjMatr(self):
+        f = self.focalLength
+        ar = self.aspectRatio
+        far = 1000
+        near = 0.1
+
+        V = np.array([
+            [f / ar, 0, 0, 0],
+            [0, f, 0, 0],
+            [0, 0, (far + near) / (near - far), 2 * far * near / (near - far)],
+            [0, 0, -1, 0]
+        ])
+        return V
+
     def genRay(self, i, j): # ret: vector3d
         # clamping [0, 1]%
         u = (i + 0.5) / self.imgWidth

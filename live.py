@@ -1,12 +1,29 @@
 # live camera!!
+import numpy as np
 import pygame
 
 from camera import Camera
-from objects.sphere import Sphere
 from render import *
-from scene import Scene, makeSphere
+from scene import Scene, makeSphere, projPt
 from util import *
 
+# for wireframe stuff
+CUBE_VERTICES = [
+    (-1, -1, -1),
+    (1, -1, -1),
+    (1, 1, -1),
+    (-1, 1, -1),
+    (-1, -1, 1),
+    (1, -1, 1),
+    (1, 1, 1),
+    (-1, 1, 1)
+]
+
+CUBE_EDGES = [
+    (0, 1), (1, 2), (2, 3), (3, 0),
+    (4, 5), (5, 6), (6, 7), (7, 4),
+    (0, 4), (1, 5), (2, 6), (3, 7),
+]
 
 # camera speed, def = 3.0
 SPEED = 3.0
@@ -53,6 +70,24 @@ def buildScene():
 def buildCamera():
     return Camera(ORIGIN, create_vector(0, 0, -1), DEFWIN_WIDTH, DEFWIN_HEIGHT, 1)
 
+def wireframe(screen, camera):
+    center = ORIGIN
+    scale = 1.0
+
+    projected = []
+    for (x, y, z) in CUBE_VERTICES:
+        wx = center[0] + x * scale
+        wy = center[1] + y * scale
+        wz = center[2] + z * scale
+        PWrld = create_vector(wx, wy, wz)
+
+        pos2D, _ = projPt(PWrld, camera, DEFWIN_WIDTH, DEFWIN_HEIGHT)
+        projected.append(pos2D)
+    for i, j in CUBE_EDGES:
+        ax, ay = projected[i]
+        bx, by = projected[j]
+        pygame.draw.line(screen, (255, 255, 255), (ax, ay), (bx, by))
+
 def main():
     pygame.init()
     pygame.mouse.set_visible(False)
@@ -84,6 +119,9 @@ def main():
 
         surf = pygame.image.frombuffer(byteBuf, (DEFWIN_WIDTH, DEFWIN_HEIGHT), "RGB")
         screen.blit(surf, (0, 0))
+
+        wireframe(screen, camera)
+
         pygame.display.flip()
 
     pygame.quit()
