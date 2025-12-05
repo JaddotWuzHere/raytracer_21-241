@@ -6,7 +6,7 @@ from util import *
 
 def buildScene():
     s1 = makeSphere(create_vector(0, 0, -3), 1)
-    s2 = makeSphere(create_vector(2, 0, -3), 1)
+    s2 = makeSphere(create_vector(-2, 0, -1), 1)
     return Scene([s1, s2])
 
 def buildCamera():

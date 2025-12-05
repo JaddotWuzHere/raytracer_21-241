@@ -7,6 +7,9 @@ from render import *
 from scene import Scene, makeSphere, projPt
 from util import *
 
+WIDTH = 320
+HEIGHT = 180
+
 # for wireframe stuff
 CUBE_VERTICES = [
     (-1, -1, -1),
@@ -30,7 +33,7 @@ SPEED = 3.0
 # mouse sensitivity, def = 0.003
 SENS = 0.003
 # mouse center
-CENTER_X, CENTER_Y = DEFWIN_WIDTH // 2, DEFWIN_HEIGHT // 2
+CENTER_X, CENTER_Y = WIDTH // 2, HEIGHT // 2
 
 def camInput(camera, seconds):
     keys = pygame.key.get_pressed()
@@ -68,7 +71,7 @@ def buildScene():
     return Scene([s1])
 
 def buildCamera():
-    return Camera(ORIGIN, create_vector(0, 0, -1), DEFWIN_WIDTH, DEFWIN_HEIGHT, 1)
+    return Camera(ORIGIN, create_vector(0, 0, -1), WIDTH, HEIGHT, 1)
 
 def wireframe(screen, camera):
     center = ORIGIN
@@ -81,7 +84,7 @@ def wireframe(screen, camera):
         wz = center[2] + z * scale
         PWrld = create_vector(wx, wy, wz)
 
-        pos2D, _ = projPt(PWrld, camera, DEFWIN_WIDTH, DEFWIN_HEIGHT)
+        pos2D, _ = projPt(PWrld, camera, WIDTH, HEIGHT)
         projected.append(pos2D)
     for i, j in CUBE_EDGES:
         ax, ay = projected[i]
@@ -95,7 +98,7 @@ def main():
     pygame.mouse.set_pos(CENTER_X, CENTER_Y)
     pygame.mouse.get_rel()
 
-    screen = pygame.display.set_mode((DEFWIN_WIDTH, DEFWIN_HEIGHT))
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
     clock = pygame.time.Clock()
 
     scene = buildScene()
@@ -114,10 +117,10 @@ def main():
         camInput(camera, seconds)
         mouseLook(camera)
 
-        pixels = renderFrame(camera, scene, DEFWIN_WIDTH, DEFWIN_HEIGHT)
-        byteBuf = writeBytes(pixels, DEFWIN_WIDTH, DEFWIN_HEIGHT)
+        pixels = renderFrame(camera, scene, WIDTH, HEIGHT)
+        byteBuf = writeBytes(pixels, WIDTH, HEIGHT)
 
-        surf = pygame.image.frombuffer(byteBuf, (DEFWIN_WIDTH, DEFWIN_HEIGHT), "RGB")
+        surf = pygame.image.frombuffer(byteBuf, (WIDTH, HEIGHT), "RGB")
         screen.blit(surf, (0, 0))
 
         wireframe(screen, camera)
