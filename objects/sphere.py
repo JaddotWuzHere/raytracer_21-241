@@ -3,9 +3,10 @@ from geometry import *
 
 
 class Sphere(Renderable):
-    def __init__(self, M, M_inv):
+    def __init__(self, M, M_inv, reflectivity):
         self.M = M
         self.M_inv = M_inv
+        self.reflectivity = reflectivity
 
     def intersect(self, ray):
         t = calcHitObj(ray, self)

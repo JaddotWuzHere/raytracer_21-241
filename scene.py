@@ -1,3 +1,4 @@
+import camera
 from objects.sphere import Sphere
 from util import *
 
@@ -15,12 +16,12 @@ class Scene:
 
         return closest
 
-def makeSphere(center, radius):
+def makeSphere(center, radius, reflectivity):
     S = scale(radius)
     T = translation(center[0], center[1], center[2])
     M = T @ S
     M_inv = np.linalg.inv(M)
-    return Sphere(M, M_inv)
+    return Sphere(M, M_inv, reflectivity)
 
 def projPt(PWrld, camera, width, height):
     V = camera.createViewMatr()

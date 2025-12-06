@@ -1,18 +1,21 @@
 # draw scene
 from geometry import *
+from ray import Ray
 from util import *
 
 SKYBOX = (125, 200, 255)
 GROUND = (255, 255, 255)
-LIGHT_POS = create_vector(2, 2, 0)
+LIGHT_POS = create_vector(5, 2, 0)
 
 AMBIENT = 0.25
 DIFFUSE = 1.0
-SHINE = 50
+SHINE = 20
 DIFFUSE_COEF = 1.0
-SPECULAR_COEF = 0.8
+SPECULAR_COEF = 0.3
 LIGHT_COLOR = (1.0, 1.0, 1.0)
 
+DEPTH_MAX = 2
+EPSILON = 1e-8
 
 # for rendering the window, default sizes
 DEFWIN_WIDTH = 1280
@@ -23,12 +26,46 @@ def renderFrame(camera, scene, width, height):
     for i in range(height):
         for j in range(width):
             ray = camera.genRay(j, i)
-            hit = scene.trace(ray)
-            if hit is None:
-                pixelBuf[i][j] = skyGradient(ray)
-            else:
-                pixelBuf[i][j] = lambertianShade(hit, camera)
+            pixelBuf[i][j] = traceRefl(ray, 0, scene, camera)
     return pixelBuf
+
+def traceRefl(ray, depth, scene, camera):
+    if depth > DEPTH_MAX:
+        return skyGradient(ray)
+
+    hit = scene.trace(ray)
+    if hit is None:
+        return skyGradient(ray)
+
+    obj = hit.obj
+    P = hit.point
+    N = normalVec(obj, P)
+
+    CLoc = lambertianShade(hit, camera)
+    r = obj.reflectivity
+
+    if r <= 0.0:
+        return CLoc
+
+    D = normalize(ray.direction)
+
+    rDir = normalize(D - 2 * dot(D, N) * N)
+    rOrig = P + EPSILON * rDir
+
+    reflectRay = Ray(rOrig, rDir)
+
+    CRefl = traceRefl(reflectRay, depth + 1, scene, camera)
+
+    C_r = (1 - r) * CLoc[0] + r * CRefl[0]
+    C_g = (1 - r) * CLoc[1] + r * CRefl[1]
+    C_b = (1 - r) * CLoc[2] + r * CRefl[2]
+
+    C_r = max(0, min(255, int(C_r)))
+    C_g = max(0, min(255, int(C_g)))
+    C_b = max(0, min(255, int(C_b)))
+
+    C = (int(C_r), int(C_g), int(C_b))
+    return C
 
 # render skybox
 def skyGradient(ray): # ret: (r, g, b)
