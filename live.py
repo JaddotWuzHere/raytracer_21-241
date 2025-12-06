@@ -67,8 +67,9 @@ def mouseLook(camera):
     pygame.mouse.set_pos(CENTER_X, CENTER_Y)
 
 def buildScene():
-    s1 = makeSphere(create_vector(0, 0, -3), 1)
-    return Scene([s1])
+    s1 = makeSphere(create_vector(-1.5, 0, -3), 1, 0.0)
+    s2 = makeSphere(create_vector(1.5, 0, -3), 1, 1.0)
+    return Scene([s1, s2])
 
 def buildCamera():
     return Camera(ORIGIN, create_vector(0, 0, -1), WIDTH, HEIGHT, 1)
