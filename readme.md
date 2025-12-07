@@ -5,8 +5,8 @@ A full ray tracing engine built from scratch using **linear algebra as the core 
 This project demonstrates that an entire 3D rendering pipeline can be implemented almost entirely using **matrix transformations, dot products, vector normalization, and coordinate space changes**.
 
 **Authors**
-- Anson Wang
-- Jason Ding
+- Anson Wang  
+- Jason Ding  
 
 ---
 
@@ -75,9 +75,9 @@ For a unit sphere in object space:
 N = P / ||P||
 
 Normals are:
-1. Computed in object space
-2. Transformed back into world space
-3. Renormalized
+1. Computed in object space  
+2. Transformed back into world space  
+3. Renormalized  
 
 ---
 
@@ -91,10 +91,10 @@ u = r × f
 
 The resulting view matrix:
 
-| rx  ry  rz  −r·pos |
-| ux  uy  uz  −u·pos |
-|−fx −fy −fz   f·pos |
-|  0   0   0     1   |
+| rx  ry  rz  −r·pos |  
+| ux  uy  uz  −u·pos |  
+|−fx −fy −fz   f·pos |  
+|  0   0   0     1   |  
 
 This matrix converts world coordinates into camera space.
 
@@ -104,10 +104,10 @@ This matrix converts world coordinates into camera space.
 
 Projection matrix:
 
-| f/A  0    0          0 |
-|  0   f    0          0 |
-|  0   0  (n+f)/(n−f)  2nf/(n−f) |
-|  0   0   −1         0 |
+| f/A  0    0          0 |  
+|  0   f    0          0 |  
+|  0   0  (n+f)/(n−f)  2nf/(n−f) |  
+|  0   0   −1         0 |  
 
 After projection:
 
@@ -134,6 +134,11 @@ spec = max(0, N · H) ^ SHINE
 
 ---
 
+### Specular Highlight Example
+![Specular Highlights](assets/specular.png)
+
+---
+
 ## Recursive Reflections
 
 Reflection direction:
@@ -145,6 +150,9 @@ Reflections are traced recursively until:
 DEPTH_MAX = 2
 
 Local and reflected colors are blended using the object’s reflectivity value.
+
+### Reflection Example
+![Reflections](assets/reflection.png)
 
 ---
 
@@ -158,45 +166,39 @@ This blends between the ground color and sky color.
 
 ---
 
+## Scene With Increasing Depth
+
+This demonstrates correct depth ordering and perspective scaling of objects.
+
+![Depth Scene](assets/depth_scene.png)
+
+---
+
 ## Live Camera Controls
 
-- W / S → move forward / backward
-- A / D → strafe left / right
-- Space / Shift → move up / down
-- Mouse → yaw and pitch
+- W / S → move forward / backward  
+- A / D → strafe left / right  
+- Space / Shift → move up / down  
+- Mouse → yaw and pitch  
 
 Current performance: ~0.5 FPS  
 Planned future optimization via Numba or a lower-level rewrite.
+
+### Live Camera View
+![Live View](assets/live_view.png)
 
 ---
 
 ## Wireframe Projection
 
 A real-time projected unit cube is rendered using:
-- 8 vertices
-- 12 edges
-- Shared camera projection pipeline
+- 8 vertices  
+- 12 edges  
+- Shared camera projection pipeline  
 
 Rendered directly over the ray-traced scene for verification.
 
----
-
-## Inline Image Templates
-
-### Scene With Increasing Depth
-![Depth Scene](assets/depth_scene.png)
-
-### Specular Highlights
-![Specular Highlights](assets/specular.png)
-
-### Recursive Reflections
-![Reflections](assets/reflection.png)
-
-### Live Camera View (PyGame)
-![Live View](assets/live_view.png)
-
-### Wireframe Projection Overlay
-
+### Wireframe Overlay
 ![Wireframe](assets/wireframe.png)
 
 ---
@@ -206,13 +208,13 @@ Rendered directly over the ray-traced scene for verification.
 ### Generate a Static Ray-Traced Image
 
 python genImage.py  
-xdg-open output.ppm
+xdg-open output.ppm  
 
 ---
 
 ### Run Live Camera Mode
 
-python live.py
+python live.py  
 
 ---
 
@@ -248,9 +250,9 @@ python live.py
 
 ## Future Work
 
-- Numba acceleration
-- Multiple light sources
-- Triangle meshes
-- Shadow rays
-- Bounding volume hierarchy (BVH)
-- Anti-aliasing
+- Numba acceleration  
+- Multiple light sources  
+- Triangle meshes  
+- Shadow rays  
+- Bounding volume hierarchy (BVH)  
+- Anti-aliasing  
