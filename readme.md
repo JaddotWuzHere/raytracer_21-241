@@ -10,7 +10,7 @@ This project demonstrates that an entire 3D rendering pipeline can be implemente
 
 ---
 
-For the fully formatted paper, see:** [Ray Tracer Report (PDF)](./raytracer.pdf)
+For the fully formatted paper, see: [A Linear Algebraic Approach to Raytracing/3D Graphics (PDF)](./raytracer.pdf)
 
 ---
 
