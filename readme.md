@@ -1,8 +1,8 @@
 # Linear Algebraic Ray Tracer
 
-A full ray tracing engine built from scratch using **linear algebra as the core mathematical framework**, featuring object-space transformations, camera view and projection matrices, physically inspired lighting, recursive reflections, and real-time camera control using PyGame.
+A full ray tracing engine built from scratch using linear algebra as basic mathematical framework, featuring object-space transformations, camera view and projection matrices, natural lighting, recursive reflections, and real-time camera control using PyGame.
 
-This project demonstrates that an entire 3D rendering pipeline can be implemented almost entirely using **matrix transformations, dot products, vector normalization, and coordinate space changes**.
+This project demonstrates that an entire 3D rendering pipeline can be implemented almost entirely using matrix transformations, dot products, vector normalization, and coordinate space changes.
 
 **Authors**
 - Anson Wang  
@@ -10,18 +10,22 @@ This project demonstrates that an entire 3D rendering pipeline can be implemente
 
 ---
 
-## Core Rendering Pipeline
+For the fully formatted paper, see:** [Ray Tracer Report (PDF)](./raytracer.pdf)
 
-All objects are defined as **unit spheres at the origin in object space**. They are transformed into world space using **4×4 homogeneous transformation matrices**:
+---
+
+## Rendering Pipeline
+
+All objects are defined as unit spheres at the origin in object space. They are transformed into world space using 4×4 homogeneous transformation matrices:
 
 Object Space → World Space → Camera Space → Clip Space → NDC → Screen Space
 
-Instead of intersecting rays with transformed objects directly, **rays are transformed into object space using the inverse matrix**:
+Instead of intersecting rays with transformed objects directly, rays are transformed into object space using the inverse matrix:
 
 M = T · S  
 M⁻¹ = inverse(M)
 
-This allows every object to be treated as a default unit sphere, greatly simplifying intersection math.
+This allows every object to be treated as a default unit sphere, which greatly simplifies intersection math.
 
 ---
 
@@ -64,7 +68,7 @@ Discriminant:
 
 Δ = b² − 4ac
 
-The **smallest positive root** of the quadratic is selected as the hit distance.
+The smallest positive root of the quadratic is selected as the hit distance.
 
 ---
 
@@ -220,7 +224,7 @@ python live.py
 
 ## Project Structure
 
-.
+
 ├── camera.py  
 ├── geometry.py  
 ├── scene.py  
