@@ -181,7 +181,7 @@ Rendered directly over the ray-traced scene for verification.
 
 ---
 
-## Inline Image Templates (Drop Your Images Here)
+## Inline Image Templates
 
 ### Scene With Increasing Depth
 ![Depth Scene](assets/depth_scene.png)
